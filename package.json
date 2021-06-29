@@ -19,7 +19,7 @@
   },
   "keywords": [
     "ecosystem:cordova",
-    "cordova-ios",
+    "cordova-ios"
   ],
   "author": "Bandyer",
   "license": "LGPL-3.0-or-later",
@@ -37,6 +37,7 @@
     "hooks/AddTarget.js",
     "hooks/RemoveTarget.js",
     "hooks/CopyExtension.js",
+    "hooks/prerequisites.js",
     "plugin.xml",
     "LICENSE",
     "package.json"

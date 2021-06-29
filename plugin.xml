@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        id="cordova-plugin-toastyplugin" version="0.0.1">
+        id="cordova-plugin-bandyer-broadcast-extension" version="0.0.1">
     <name>Bandyer Broadcast Extension Cordova Plugin</name>
     <author>Bandyer S.r.l.</author>
     <description>An iOS Cordova plugin that adds Broadcast upload extension using the BandyerSDK in your iOS Cordova app</description>
@@ -17,10 +17,7 @@
         <engine name="apple-ios" version=">=12.0.0" />
     </engines>
 
-    <dependency id="@bandyer/cordova-plugin-bandyer" version="0.8.0" />
-
-    <source-file src="src/ios/BCBBroadcastSampleHandler.h" /> 
-    <header-file src="src/ios/BCBBroadcastSampleHandler.h" />
+    <dependency id="@bandyer/cordova-plugin-bandyer" version="0.7.0" />
  
     <platform name="ios">
         <config-file target="*.entitlements" parent="com.apple.security.application-groups">
@@ -38,14 +35,12 @@
                     <string>group.__APP_IDENTIFIER__</string>
                 </array>
         </config-file>
-        <podspec>
-            <config>
-                <source url="https://cdn.cocoapods.org/" />
-            </config>
-            <pods use-frameworks="true">
-                <pod name="BandyerBroadcastExtension" spec="1.0.0" />
-            </pods>
-        </podspec>
+
+        <hook type="after_platform_add" src="hooks/prerequisites.js"/>
+        <hook type="after_platform_add" src="hooks/CopyExtension.js" />
+        <hook type="before_prepare" src="hooks/CopyExtension.js" />
+        <hook type="after_prepare" src="hooks/AddTarget.js" />
+        <hook type="before_plugin_uninstall" src="hooks/RemoveTarget.js" />
     </platform>
 
 </plugin>
