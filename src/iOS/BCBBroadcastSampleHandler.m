@@ -1,0 +1,40 @@
+//
+//  Copyright © 2019-2021 Bandyer. All rights reserved.
+//
+
+#import "BCBBroadcastSampleHandler.h"
+
+#import <BandyerBroadcastExtension/BandyerBroadcastExtension.h>
+
+@implementation BCBBroadcastSampleHandler
+
+- (void)broadcastStartedWithSetupInfo:(NSDictionary<NSString *,NSObject *> *)setupInfo
+{
+    __weak __typeof__(self) _wself = self;
+    [BBEBroadcastExtension.instance startWithAppGroupIdentifier:@"__APP_GROUP_IDENTIFIER__" setupInfo:setupInfo errorHandler:^(NSError * _Nonnull error) {
+        __strong __typeof__(_wself) sself = _wself;
+        [sself finishBroadcastWithError:error];
+    }];
+}
+
+- (void)broadcastPaused
+{
+    [BBEBroadcastExtension.instance pause];
+}
+
+- (void)broadcastResumed
+{
+    [BBEBroadcastExtension.instance resume];
+}
+
+- (void)broadcastFinished
+{
+    [BBEBroadcastExtension.instance finish];
+}
+
+- (void)processSampleBuffer:(CMSampleBufferRef)sampleBuffer withType:(RPSampleBufferType)sampleBufferType
+{
+    [BBEBroadcastExtension.instance processSampleBuffer:sampleBuffer ofType:sampleBufferType];
+}
+
+@end
