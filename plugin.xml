@@ -17,6 +17,8 @@
         <engine name="apple-ios" version=">=12.0.0" />
     </engines>
 
+    <dependency id="@bandyer/cordova-plugin-bandyer" version="0.8.0" />
+
     <source-file src="src/ios/BCBBroadcastSampleHandler.h" /> 
     <header-file src="src/ios/BCBBroadcastSampleHandler.h" />
  
