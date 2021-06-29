@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="cordova-plugin-toastyplugin" version="0.0.1">
+    <name>Bandyer Broadcast Extension Cordova Plugin</name>
+    <author>Bandyer S.r.l.</author>
+    <description>An iOS Cordova plugin that adds Broadcast upload extension using the BandyerSDK in your iOS Cordova app</description>
+    <license>GNU LESSER GENERAL PUBLIC LICENSE Version 3</license>
+
+    <keywords>cordova,ios,bandyer,screen sharing,bandyersdk,extension</keywords>
+    <repo></repo>
+    <issue></issue>
+  
+    <engines>
+        <engine name="cordova" version=">=9.0.0" />
+        <engine name="cordova-ios" version=">=6.0.0" />
+        <engine name="apple-ios" version=">=12.0.0" />
+    </engines>
+  
+    <platform name="ios">
+        <config-file target="*.entitlements" parent="com.apple.security.application-groups">
+            <array>
+                <string>group.__APP_IDENTIFIER__</string>
+            </array>
+        </config-file>
+        <config-file target="**/Entitlements-Debug.plist" parent="com.apple.security.application-groups">
+                <array>
+                    <string>group.__APP_IDENTIFIER__</string>
+                </array>
+        </config-file>
+        <config-file target="**/Entitlements-Release.plist" parent="com.apple.security.application-groups">
+                <array>
+                    <string>group.__APP_IDENTIFIER__</string>
+                </array>
+        </config-file>
+        <podspec>
+            <config>
+                <source url="https://cdn.cocoapods.org/" />
+            </config>
+            <pods use-frameworks="true">
+                <pod name="BandyerBroadcastExtension" spec="1.0.0" />
+            </pods>
+        </podspec>
+    </platform>
+
+</plugin>
