@@ -34,10 +34,9 @@
     "src/ios/UploadExtension/Info.plist",
     "src/ios/UploadExtension/BCBBroadcastSampleHandler.h",
     "src/ios/UploadExtension/BCBBroadcastSampleHandler.m",
-    "hooks/iosAddTarget.js",
-    "hooks/iosRemoveTarget.js",
-    "hooks/iosCopyShareExtension.js",
-    "hooks/npmInstall.js",
+    "hooks/AddTarget.js",
+    "hooks/RemoveTarget.js",
+    "hooks/CopyExtension.js",
     "plugin.xml",
     "LICENSE",
     "package.json"
