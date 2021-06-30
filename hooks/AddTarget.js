@@ -126,7 +126,7 @@ function projectPlistJson(context, projectName) {
 
 function getPreferences(context, configXml, projectName) {
   var plist = projectPlistJson(context, projectName);
-  var group = "group." + bundleIdentifier + BUNDLE_SUFFIX;
+  var group = "group." + bundleIdentifier;
   if (getCordovaParameter(configXml, 'IOS_GROUP_IDENTIFIER')) {
     group = getCordovaParameter(configXml, 'IOS_GROUP_IDENTIFIER');
   }
@@ -149,7 +149,7 @@ function getPreferences(context, configXml, projectName) {
 }
 
 // Return the list of files in the share extension project, organized by type
-function getShareExtensionFiles(context) {
+function getExtensionFiles(context) {
   var files = {source:[],plist:[],resource:[], entitlements:[]};
   var FILE_TYPES = { '.h':'source', '.m':'source', '.plist':'plist', '.entitlements' : 'entitlements'};
   forEachShareExtensionFile(context, function(file) {
@@ -204,7 +204,7 @@ module.exports = function (context) {
     var pbxProjectPath = path.join(projectFolder, 'project.pbxproj');
     var pbxProject = parsePbxProject(context, pbxProjectPath);
 
-    var files = getShareExtensionFiles(context);
+    var files = getExtensionFiles(context);
     // printShareExtensionFiles(files);
 
     var preferences = getPreferences(context, configXml, projectName);
