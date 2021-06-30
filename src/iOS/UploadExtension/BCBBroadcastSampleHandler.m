@@ -11,7 +11,7 @@
 - (void)broadcastStartedWithSetupInfo:(NSDictionary<NSString *,NSObject *> *)setupInfo
 {
     __weak __typeof__(self) _wself = self;
-    [BBEBroadcastExtension.instance startWithAppGroupIdentifier:@"__APP_GROUP_IDENTIFIER__" setupInfo:setupInfo errorHandler:^(NSError * _Nonnull error) {
+    [BBEBroadcastExtension.instance startWithAppGroupIdentifier:@"__GROUP_IDENTIFIER__" setupInfo:setupInfo errorHandler:^(NSError * _Nonnull error) {
         __strong __typeof__(_wself) sself = _wself;
         [sself finishBroadcastWithError:error];
     }];
