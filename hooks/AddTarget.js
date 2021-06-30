@@ -177,6 +177,27 @@ function printShareExtensionFiles(files) {
   });
 }
 
+function updatePodfile(context) {
+  var template = "target '__TARGET_NAME__' do\n" +
+      "  use_frameworks!\n" +
+      "  platform :ios, '12.0'\n" +
+      "\n" +
+      "  pod 'BandyerBroadcastExtension'\n" +
+      "end\n";
+
+  var podfilePath = path.join(iosFolder(context), "Podfile");
+  var content = fs.readFileSync(podfilePath, 'utf8');
+  var regexp = new RegExp("__TARGET_NAME__", "g");
+  content = content + "\n";
+  content = content + template.replace(regexp, "UploadExtension");
+  fs.writeFileSync(podfilePath, content);
+  const spawn = require('child_process').spawnSync;
+  var projectDirectoryArg = "--project-directory=" + iosFolder(context);
+  const pod = spawn('pod', ['install', projectDirectoryArg,'--verbose']);
+  console.log(`stderr: ${pod.stderr.toString()}`);
+  console.log(`stdout: ${pod.stdout.toString()}`);
+}
+
 console.log('Adding target "' + PLUGIN_ID + '/UploadExtension" to XCode project');
 
 module.exports = function (context) {
@@ -353,6 +374,7 @@ module.exports = function (context) {
     fs.writeFileSync(pbxProjectPath, pbxProject.writeSync());
     console.log('Added UploadExtension to XCode project');
 
+    updatePodfile(context);
     deferral.resolve();
   });
 
