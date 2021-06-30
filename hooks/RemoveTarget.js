@@ -2,35 +2,9 @@
 //  RemoveTarget.js
 //  This hook runs for the iOS platform when the plugin or platform is removed.
 //
-// Source: https://github.com/DavidStrausz/cordova-plugin-today-widget
-//
 
-//
-// The MIT License (MIT)
-//
-// Copyright (c) 2017 DavidStrausz
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-//
-
-const PLUGIN_ID = "cc.fovea.cordova.openwith";
-const BUNDLE_SUFFIX = ".shareextension";
+const PLUGIN_ID = "cordova-plugin-bandyer-broadcast-extension";
+const BUNDLE_SUFFIX = ".UploadExtension";
 
 var fs = require('fs');
 var path = require('path');
@@ -87,7 +61,7 @@ function parsePbxProject(context, pbxProjectPath) {
 }
 
 function forEachShareExtensionFile(context, callback) {
-  var shareExtensionFolder = path.join(iosFolder(context), 'ShareExtension');
+  var shareExtensionFolder = path.join(iosFolder(context), 'UploadExtension');
   fs.readdirSync(shareExtensionFolder).forEach(function(name) {
     // Ignore junk files like .DS_Store
     if (!/^\..*/.test(name)) {
@@ -112,8 +86,8 @@ function projectPlistJson(context, projectName) {
 
 // Return the list of files in the share extension project, organized by type
 function getShareExtensionFiles(context) {
-  var files = {source:[],plist:[],resource:[]};
-  var FILE_TYPES = { '.h':'source', '.m':'source', '.plist':'plist' };
+  var files = {source:[],plist:[],resource:[], entitlements: []};
+  var FILE_TYPES = { '.h':'source', '.m':'source', '.plist':'plist', '.entitlements': 'entitlements' };
   forEachShareExtensionFile(context, function(file) {
     var fileType = FILE_TYPES[file.extension] || 'resource';
     files[fileType].push(file);
@@ -121,7 +95,7 @@ function getShareExtensionFiles(context) {
   return files;
 }
 
-console.log('Removing target "' + PLUGIN_ID + '/ShareExtension" to XCode project');
+console.log('Removing target "' + PLUGIN_ID + '/UploadExtension" to XCode project');
 
 module.exports = function (context) {
 
@@ -137,8 +111,8 @@ module.exports = function (context) {
     var files = getShareExtensionFiles(context);
 
     // Find if the project already contains the target and group
-    var target = pbxProject.pbxTargetByName('ShareExtension');
-    var pbxGroupKey = pbxProject.findPBXGroupKey({name: 'ShareExtension'});
+    var target = pbxProject.pbxTargetByName('UploadExtension');
+    var pbxGroupKey = pbxProject.findPBXGroupKey({name: 'UploadExtension'});
 
     // Remove the PbxGroup from cordovas "CustomTemplate"-group
     if (pbxGroupKey) {
@@ -147,6 +121,10 @@ module.exports = function (context) {
 
       // Remove files which are not part of any build phase (config)
       files.plist.forEach(function (file) {
+        pbxProject.removeFile(file.name, pbxGroupKey);
+      });
+
+      files.entitlements.forEach(function (file) {
         pbxProject.removeFile(file.name, pbxGroupKey);
       });
 
@@ -214,7 +192,7 @@ module.exports = function (context) {
     // Write the modified project back to disc
     // console.log('    Writing the modified project back to disk...');
     fs.writeFileSync(pbxProjectPath, pbxProject.writeSync());
-    console.log('Removed ShareExtension from XCode project');
+    console.log('Removed UploadExtension from XCode project');
 
     deferral.resolve();
   });
