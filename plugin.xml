@@ -18,26 +18,8 @@
     </engines>
 
     <dependency id="@bandyer/cordova-plugin-bandyer" version="0.7.0" />
- 
-    <platform name="ios">
-        <config-file target="*.entitlements" parent="com.apple.security.application-groups">
-            <array>
-                <string>group.__APP_IDENTIFIER__</string>
-            </array>
-        </config-file>
-        <config-file target="**/Entitlements-Debug.plist" parent="com.apple.security.application-groups">
-                <array>
-                    <string>group.__APP_IDENTIFIER__</string>
-                </array>
-        </config-file>
-        <config-file target="**/Entitlements-Release.plist" parent="com.apple.security.application-groups">
-                <array>
-                    <string>group.__APP_IDENTIFIER__</string>
-                </array>
-        </config-file>
 
-        <hook type="after_platform_add" src="hooks/prerequisites.js"/>
-        <hook type="after_platform_add" src="hooks/CopyExtension.js" />
+    <platform name="ios">
         <hook type="before_prepare" src="hooks/CopyExtension.js" />
         <hook type="after_prepare" src="hooks/AddTarget.js" />
         <hook type="before_plugin_uninstall" src="hooks/RemoveTarget.js" />
