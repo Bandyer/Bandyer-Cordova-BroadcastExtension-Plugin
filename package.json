@@ -1,11 +1,18 @@
 {
-  "name": "cordova-plugin-bandyer-broadcast-extension",
+  "name": "@bandyer/cordova-plugin-bandyer-broadcast-extension",
   "private": true,
   "version": "0.1.0",
   "description": "Bandyer as simple as making a phone call",
-  "homepage": "https://bandyer.github.io/Bandyer-Cordova-Plugin",
+  "homepage": "https://github.com/Bandyer/Bandyer-Cordova-BroadcastExtension-Plugin",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Bandyer/Bandyer-Cordova-BroadcastExtension-Plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Bandyer/Bandyer-Cordova-BroadcastExtension-Plugin/issues"
+  },
   "cordova": {
-    "id": "cordova-plugin-bandyer-broadcast-extension",
+    "id": "@bandyer/cordova-plugin-bandyer-broadcast-extension",
     "platforms": [
       "ios"
     ]
@@ -22,7 +29,7 @@
     "plist": "^2.1.0",
     "q": "^1.5.1",
     "elementtree": "^0.1.7",
-    "xcode": "git+https://github.com/apache/cordova-node-xcode.git"
+    "xcode": "^3.0.1"
   },
   "files": [
     "src/ios/UploadExtension/UploadExtension.entitlements",
@@ -32,7 +39,6 @@
     "hooks/AddTarget.js",
     "hooks/RemoveTarget.js",
     "hooks/CopyExtension.js",
-    "hooks/prerequisites.js",
     "plugin.xml",
     "LICENSE",
     "package.json"
