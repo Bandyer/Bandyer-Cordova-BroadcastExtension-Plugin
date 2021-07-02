@@ -2,7 +2,7 @@
 
 # Bandyer Broadcast Extension Cordova Plugin 
 
-This plugin enables your app to take advantage of the Broadcast screen sharing feature of the iOS BandyerSDK. In order for your user to share the device screen during a video call on iOS, your app needs to provide a BroadcastUploadExtension, a small app extension that runs a standalone process that records the user device screen and stream it to the other participants participating in the video call. This plugin aims to make it easy for you to add this app extension to your app with a one liner commmand
+This plugin enables your app to take advantage of the Broadcast screen sharing feature of the iOS BandyerSDK. In order for your user to share the device screen during a video call on iOS, your app needs to provide a BroadcastUploadExtension, a small app extension that runs a standalone process that records the user device screen and stream it to the other participants participating in the video call. This plugin aims to make it easy for you to add this app extension to your app with a one liner commmand.
 
 ## Requirements
 
@@ -19,7 +19,7 @@ You are required to perform the following installation steps only the first time
 
 ## Installation
 
-As we mentioned earlier if you are already using the **cordova-plugin-bandyer** in your app, you are required to uninstall it, then you can follow the installation steps as you were installing the Bandyer plugin for the first time
+As we mentioned earlier if you are already using the **cordova-plugin-bandyer** in your app, you are required to uninstall it, then you can follow the installation steps as you were installing the Bandyer plugin for the first time.
 
 ### Bandyer Cordova Plugin
 
@@ -97,9 +97,32 @@ From the terminal, in your app folder, run the following command:
 npm i && cordova rm ios --nosave && cordova add ios --nosave
 ```
 
+## Bandyer plugin setup
+
+Once you have installed and configured the plugins, the last thing you need to do in order to enable the broadcast screen sharing in your app is to tell the Bandyer Plugin you want to enable that feature. From Javascript, in the snippet of code where you setup the BandyerPlugin you must add the `broadcastScreenSharingEnabled` flag to the `iosConfig` object with a value of `true`. Here's the gist:
+
+```javascript
+var bandyerPlugin = BandyerPlugin.setup({
+        environment: BandyerPlugin.environments.sandbox(),
+        appId: 'mAppId_xxx', // your mobile appId
+        iosConfig: {
+            callkit: {
+                enabled: true, 
+                appIconName: "logo_transparent", 
+                ringtoneSoundName: "custom_ringtone.mp3" 
+            },
+            fakeCapturerFileName: null, 
+            voipNotificationKeyPath: 'keypath_to_bandyer_data', 
+            broadcastScreenSharingEnabled: true // Add this flag to enable the broadcast screen sharing feature 
+        }
+})
+```
+
+Beware, if the plugin is not configured properly, that flag has no effect whatsoever. 
+
 ## Variables
 
-Both "Bandyer Cordova Plugin" an the "Bandyer Broadcast Extension Cordova Plugin" have their own preferences you can customise to your need
+Both "Bandyer Cordova Plugin" and the "Bandyer Broadcast Extension Cordova Plugin" have their own preferences you can customise to your need.
 
 ### Bandyer Cordova Plugin
 
