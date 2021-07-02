@@ -4,7 +4,7 @@
 //
 
 const PLUGIN_ID = "cordova-plugin-bandyer-broadcast-extension";
-const BUNDLE_SUFFIX = ".UploadExtension";
+const EXTENSION_NAME = "UploadExtension";
 
 var fs = require('fs');
 var path = require('path');
@@ -60,8 +60,8 @@ function parsePbxProject(context, pbxProjectPath) {
   return pbxProject;
 }
 
-function forEachShareExtensionFile(context, callback) {
-  var shareExtensionFolder = path.join(iosFolder(context), 'UploadExtension');
+function forEachExtensionFile(context, callback) {
+  var shareExtensionFolder = path.join(iosFolder(context), EXTENSION_NAME);
   fs.readdirSync(shareExtensionFolder).forEach(function(name) {
     // Ignore junk files like .DS_Store
     if (!/^\..*/.test(name)) {
@@ -74,33 +74,28 @@ function forEachShareExtensionFile(context, callback) {
   });
 }
 
-function projectPlistPath(context, projectName) {
-  return path.join(iosFolder(context), projectName, projectName + '-Info.plist');
-}
-
-function projectPlistJson(context, projectName) {
-  var plist = require('plist');
-  var path = projectPlistPath(context, projectName);
-  return plist.parse(fs.readFileSync(path, 'utf8'));
-}
-
 // Return the list of files in the share extension project, organized by type
-function getShareExtensionFiles(context) {
+function getExtensionFiles(context) {
   var files = {source:[],plist:[],resource:[], entitlements: []};
   var FILE_TYPES = { '.h':'source', '.m':'source', '.plist':'plist', '.entitlements': 'entitlements' };
-  forEachShareExtensionFile(context, function(file) {
+  forEachExtensionFile(context, function(file) {
     var fileType = FILE_TYPES[file.extension] || 'resource';
     files[fileType].push(file);
   });
   return files;
 }
 
-console.log('Removing target "' + PLUGIN_ID + '/UploadExtension" to XCode project');
+console.log('Removing target "' + PLUGIN_ID + '/' + EXTENSION_NAME + ' to XCode project');
 
 module.exports = function (context) {
-
   var Q = require('q');
   var deferral = new Q.defer();
+
+  if (context.opts.platforms.indexOf('ios') < 0) {
+    console.log("ios platform not found! skipping hook");
+    deferral.resolve();
+    return deferral.promise;
+  }
 
   findXCodeproject(context, function(projectFolder, projectName) {
 
@@ -108,11 +103,11 @@ module.exports = function (context) {
 
     var pbxProjectPath = path.join(projectFolder, 'project.pbxproj');
     var pbxProject = parsePbxProject(context, pbxProjectPath);
-    var files = getShareExtensionFiles(context);
+    var files = getExtensionFiles(context);
 
     // Find if the project already contains the target and group
-    var target = pbxProject.pbxTargetByName('UploadExtension');
-    var pbxGroupKey = pbxProject.findPBXGroupKey({name: 'UploadExtension'});
+    var target = pbxProject.pbxTargetByName(EXTENSION_NAME);
+    var pbxGroupKey = pbxProject.findPBXGroupKey({name: EXTENSION_NAME});
 
     // Remove the PbxGroup from cordovas "CustomTemplate"-group
     if (pbxGroupKey) {
@@ -139,60 +134,8 @@ module.exports = function (context) {
       });
     }
 
-    // Add a new PBXFrameworksBuildPhase for the Frameworks used by the Share Extension
-    // (NotificationCenter.framework, libCordova.a)
-    // var frameworksBuildPhase = pbxProject.addBuildPhase(
-    //   [],
-    //   'PBXFrameworksBuildPhase',
-    //   'Frameworks',
-    //   target.uuid
-    // );
-    // if (frameworksBuildPhase) {
-    //   log('Successfully added PBXFrameworksBuildPhase!', 'info');
-    // }
-
-    // Add the frameworks needed by our shareExtension, add them to the existing Frameworks PbxGroup and PBXFrameworksBuildPhase
-    // var frameworkFile1 = pbxProject.addFramework(
-    //   'NotificationCenter.framework',
-    //   { target: target.uuid }
-    // );
-    // var frameworkFile2 = pbxProject.addFramework('libCordova.a', {
-    //   target: target.uuid,
-    // }); // seems to work because the first target is built before the second one
-    // if (frameworkFile1 && frameworkFile2) {
-    //   log('Successfully added frameworks needed by the share extension!', 'info');
-    // }
-
-    // if (resourcesBuildPhase) {
-    //   console.log('    Successfully added PBXResourcesBuildPhase!');
-    // }
-
-    // Add build settings for Swift support, bridging header and xcconfig files
-    // var configurations = pbxProject.pbxXCBuildConfigurationSection();
-    // for (var key in configurations) {
-    //   if (typeof configurations[key].buildSettings !== 'undefined') {
-    //     var buildSettingsObj = configurations[key].buildSettings;
-    //     if (typeof buildSettingsObj['PRODUCT_NAME'] !== 'undefined') {
-    //       var productName = buildSettingsObj['PRODUCT_NAME'];
-    //       if (productName.indexOf('ShareExtension') >= 0) {
-    //         if (addXcconfig) {
-    //           configurations[key].baseConfigurationReference =
-    //             xcconfigReference + ' /* ' + xcconfigFileName + ' */';
-    //           log('Added xcconfig file reference to build settings!', 'info');
-    //         }
-    //         if (addEntitlementsFile) {
-    //           buildSettingsObj['CODE_SIGN_ENTITLEMENTS'] = '"' + 'ShareExtension' + '/' + entitlementsFileName + '"';
-    //           log('Added entitlements file reference to build settings!', 'info');
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
-
-    // Write the modified project back to disc
-    // console.log('    Writing the modified project back to disk...');
     fs.writeFileSync(pbxProjectPath, pbxProject.writeSync());
-    console.log('Removed UploadExtension from XCode project');
+    console.log('Removed ' + EXTENSION_NAME + ' from XCode project');
 
     deferral.resolve();
   });

@@ -7,8 +7,6 @@
     <license>GNU LESSER GENERAL PUBLIC LICENSE Version 3</license>
 
     <keywords>cordova,ios,bandyer,screen sharing,bandyersdk,extension</keywords>
-    <repo></repo>
-    <issue></issue>
   
     <engines>
         <engine name="cordova" version=">=9.0.0" />
@@ -19,24 +17,28 @@
     <dependency id="@bandyer/cordova-plugin-bandyer" version="0.7.0" />
 
     <platform name="ios">
-        <config-file target="*.entitlements" parent="com.apple.security.application-groups">
+        <preference name="IOS_APP_GROUP_IDENTIFIER" />
+        <preference name="IOS_EXTENSION_DISPLAY_NAME" />
+        <preference name="IOS_EXTENSION_BUNDLE_ID" />
+
+        <config-file target="**/*.entitlements" parent="com.apple.security.application-groups">
             <array>
-                <string>__GROUP_IDENTIFIER__</string>
+                <string>$IOS_APP_GROUP_IDENTIFIER</string>
             </array>
         </config-file>
-        <config-file target="**/Entitlements-Debug.plist" parent="com.apple.security.application-groups">
+        <config-file target="**/Entitlements*.plist" parent="com.apple.security.application-groups">
             <array>
-                <string>__GROUP_IDENTIFIER__</string>
+                <string>$IOS_APP_GROUP_IDENTIFIER</string>
             </array>
         </config-file>
-        <config-file target="**/Entitlements-Release.plist" parent="com.apple.security.application-groups">
+        <config-file target="**/Entitlements*.plist" parent="com.apple.security.application-groups">
             <array>
-                <string>__GROUP_IDENTIFIER__</string>
+                <string>$IOS_APP_GROUP_IDENTIFIER</string>
             </array>
         </config-file>
+
         <hook type="before_prepare" src="hooks/CopyExtension.js" />
         <hook type="after_prepare" src="hooks/AddTarget.js" />
-        <hook type="after_prepare" src="hooks/FixEntitlements.js" />
         <hook type="before_plugin_uninstall" src="hooks/RemoveTarget.js" />
     </platform>
 
