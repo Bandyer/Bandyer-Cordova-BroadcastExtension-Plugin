@@ -96,3 +96,70 @@ From the terminal, in your app folder, run the following command:
 ```sh
 npm i && cordova rm ios --nosave && cordova add ios --nosave
 ```
+
+## Variables
+
+Both "Bandyer Cordova Plugin" an the "Bandyer Broadcast Extension Cordova Plugin" have their own preferences you can customise to your need
+
+### Bandyer Cordova Plugin
+
+Below you'll find a table containing the settings you can customize both from the CLI and from the config.xml file of your app for the "Bandyer Cordova Plugin". If you don't provide any preference both from the CLI and from the config.xml file, some default values will be used instead.
+
+
+| variable                    | example                        | default  | notes                                                                                            |
+|-----------------------------|--------------------------------|----------|----------------------------------------------------------------------------------------|
+| `IOS_APP_GROUP_IDENTIFIER` | group.com.acme.MyApp            | ""       | **iOS only** Represents the security app group identifier shared by the app and the upload extension. It's a mandatory argument, if you don't provide a value, a default empty value will be used but the broadcast tool will be disabled  |
+| `IOS_EXTENSION_BUNDLE_ID`  | com.acme.MyApp.UploadExtension | ""        | **iOS only** Represents the broadcast upload extension bundle identifier. It's a mandatory argument, if you don't provide any value a default empty value will be used but the broadcast tool will be disabled |
+
+#### Example
+
+From the CLI:
+
+```sh
+cordova plugin add @bandyer/cordova-plugin-bandyer \
+ --variable IOS_APP_GROUP_IDENTIFIER=group.com.acme.MyApp \
+ --variable IOS_EXTENSION_BUNDLE_ID=com.acme.MyApp.UploadExtension
+```
+
+In the config.xml:
+
+```xml
+<plugin name="@bandyer/cordova-plugin-bandyer">
+  <variable name="IOS_APP_GROUP_IDENTIFIER" value="group.com.acme.MyApp" />
+  <variable name="IOS_EXTENSION_BUNDLE_ID" value="com.acme.MyApp.UploadExtension" />
+</plugin>
+
+```
+
+### Bandyer Broadcast Extension Cordova Plugin
+
+Below you'll find a table containing the settings you can customize both from the CLI and from the config.xml file of your app for the "Bandyer Broadcast Extension Cordova Plugin". You are **required** to provide these values otherwise the plugin is not going to work.
+
+
+| variable                    | example                        | mandatory  | notes                                                                                            |
+|-----------------------------|--------------------------------|----------|----------------------------------------------------------------------------------------|
+| `IOS_APP_GROUP_IDENTIFIER` | group.com.acme.MyApp            | true       | **iOS only** Represents the security app group identifier shared by the app and the upload extension. It's a mandatory argument, if you don't provide a value, a default empty value will be used but the broadcast tool will be disabled  |
+| `IOS_EXTENSION_BUNDLE_ID`  | com.acme.MyApp.UploadExtension | true        | **iOS only** Represents the broadcast upload extension bundle identifier. It's a mandatory argument, if you don't provide any value a default empty value will be used but the broadcast tool will be disabled |
+| `IOS_EXTENSION_DISPLAY_NAME `  | MyApp | true        | **iOS only** Represents the broadcast upload extension display name. This name will be diplayed to the user when one chooses to screen share her/his device screen |
+
+#### Example
+
+From the CLI:
+
+```sh
+cordova plugin add @bandyer/cordova-plugin-bandyer-broadcast-extension \
+ --variable IOS_APP_GROUP_IDENTIFIER=group.com.acme.MyApp \
+ --variable IOS_EXTENSION_BUNDLE_ID=com.acme.MyApp.UploadExtension \
+ --variable IOS_EXTENSION_DISPLAY_NAME=MyApp
+```
+
+In the config.xml:
+
+```xml
+<plugin name="@bandyer/cordova-plugin-bandyer-broadcast-extension">
+  <variable name="IOS_APP_GROUP_IDENTIFIER" value="group.com.acme.MyApp" />
+  <variable name="IOS_EXTENSION_BUNDLE_ID" value="com.acme.MyApp.UploadExtension" />
+  <variable name="IOS_EXTENSION_DISPLAY_NAME" value="MyApp" />
+</plugin>
+
+```
