@@ -5,7 +5,7 @@
 
 var fs = require('fs');
 var path = require('path');
-const PLUGIN_ID = "cordova-plugin-bandyer-broadcast-extension";
+const PLUGIN_ID = "@bandyer/cordova-plugin-bandyer-broadcast-extension";
 
 function redError(message) {
     return new Error('"' + PLUGIN_ID + '" \x1b[1m\x1b[31m' + message + '\x1b[0m');

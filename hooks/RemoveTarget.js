@@ -3,7 +3,7 @@
 //  This hook runs for the iOS platform when the plugin or platform is removed.
 //
 
-const PLUGIN_ID = "cordova-plugin-bandyer-broadcast-extension";
+const PLUGIN_ID = "@bandyer/cordova-plugin-bandyer-broadcast-extension";
 const EXTENSION_NAME = "UploadExtension";
 
 var fs = require('fs');
