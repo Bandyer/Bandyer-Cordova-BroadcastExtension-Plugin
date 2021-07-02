@@ -186,3 +186,7 @@ In the config.xml:
 </plugin>
 
 ```
+
+## Credits
+
+The plugin hooks are a modified version of the hooks taken from the [cordova-plugin-openwith](https://github.com/j3k0/cordova-plugin-openwith)
