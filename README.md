@@ -86,7 +86,7 @@ cordova plugin add @bandyer/cordova-plugin-bandyer-broadcast-extension \
 	--variable IOS_EXTENSION_DISPLAY_NAME=MyApp
 ```
 
-### Platform add
+### Platform add
 
 At this point the plugin is not embedded in your app yet. The broadcast extension target will be added with a Cordova hook when the `cordova prepare` command is executed.
 
@@ -94,7 +94,7 @@ The last two steps you must perform is as usual update your npm modules and prep
 From the terminal, in your app folder, run the following command:
 
 ```sh
-npm i && cordova rm ios --nosave && cordova add ios --nosave
+npm i && cordova platform rm ios --nosave && cordova platform add ios --nosave
 ```
 
 ## Bandyer plugin setup
