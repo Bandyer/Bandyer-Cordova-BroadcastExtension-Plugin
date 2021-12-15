@@ -1,8 +1,8 @@
-![Bandyer Logo](doc/img/Bandyer-logotype-white-1024x500.png)
+![Bandyer Logo](doc/img/kaleyra-video.png)
 
-# Bandyer Broadcast Extension Cordova Plugin 
+# Kaleyra Video Broadcast Extension Cordova Plugin 
 
-This plugin enables your app to take advantage of the Broadcast screen sharing feature of the iOS BandyerSDK. In order for your user to share the device screen during a video call on iOS, your app needs to provide a BroadcastUploadExtension, a small app extension that runs a standalone process that records the user device screen and stream it to the other participants participating in the video call. This plugin aims to make it easy for you to add this app extension to your app with a one liner commmand.
+This plugin enables your app to take advantage of the Broadcast screen sharing feature of the Kaleyra Video iOS SDK. In order for your user to share the device screen during a video call on iOS, your app needs to provide a BroadcastUploadExtension, a small app extension that runs a standalone process that records the user device screen and stream it to the other participants participating in the video call. This plugin aims to make it easy for you to add this app extension to your app with a one liner commmand.
 
 ## Requirements
 
