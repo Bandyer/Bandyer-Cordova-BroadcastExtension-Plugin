@@ -1,7 +1,7 @@
 {
   "name": "@bandyer/cordova-plugin-bandyer-broadcast-extension",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Bandyer as simple as making a phone call",
   "homepage": "https://github.com/Bandyer/Bandyer-Cordova-BroadcastExtension-Plugin",
   "repository": {
